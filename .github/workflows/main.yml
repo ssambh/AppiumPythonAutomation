@@ -9,7 +9,15 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+          - platform: android
+            os: ubuntu-latest
+          - platform: ios
+            os: macos-latest
+
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout repository
@@ -26,6 +34,7 @@ jobs:
         node-version: '20'
 
     - name: Set up Java
+      if: matrix.platform == 'android'
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
@@ -42,11 +51,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Configure test script for platform
+      run: |
+        sed -i.bak 's/launch = ".*"/launch = "${{ matrix.platform }}"/' appium2/appium_example.py
+
     - name: Start Appium Server
       run: appium &
 
-    - name: Run Appium Tests
+    - name: Run Android Test
+      if: matrix.platform == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 29
+        api-level: 35
         script: python appium2/appium_example.py
+
+    - name: Run iOS Test
+      if: matrix.platform == 'ios'
+      run: python appium2/appium_example.py
+

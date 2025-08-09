@@ -21,7 +21,6 @@ if launch == "browser":
     options.load_capabilities(
         {
             "platformName": "Android",
-            "deviceName": "Pixel 8 Pro",
             "automationName": "UiAutomator2",
             "browserName": "Chrome",
             "appium:chromedriver_autodownload": True
@@ -33,7 +32,6 @@ elif launch == "ios":
         {
             "platformName": "iOS",
             "platformVersion": "18.4",
-            "deviceName": "iPhone 16 Pro",
             "automationName": "XCUITest",
             "bundleId": "com.example.apple-samplecode.UICatalog",
             "showXcodeLog": True
@@ -43,7 +41,6 @@ elif launch == "android":
     options.load_capabilities(
         {
             'platformName': 'Android',
-            'deviceName': 'Pixel 8 Pro',
             'automationName': 'UiAutomator2',
             'appPackage': 'io.appium.android.apis',
             'appActivity': '.ApiDemos'
