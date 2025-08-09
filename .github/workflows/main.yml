@@ -46,4 +46,7 @@ jobs:
       run: appium &
 
     - name: Run Appium Tests
-      run: python "appium2/appium_example.py"
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 29
+        script: python appium2/appium_example.py
