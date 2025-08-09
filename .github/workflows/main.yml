@@ -61,11 +61,13 @@ jobs:
     - name: Run Android Test
       if: matrix.platform == 'android'
       uses: reactivecircus/android-emulator-runner@v2
+      timeout-minutes: 2
       with:
-        api-level: 35
+        api-level: 28
         script: python appium2/appium_example.py
 
     - name: Run iOS Test
       if: matrix.platform == 'ios'
+      timeout-minutes: 2
       run: python appium2/appium_example.py
 
