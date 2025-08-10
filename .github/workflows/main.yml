@@ -81,7 +81,7 @@ jobs:
     - name: Build UICatalog
       if: github.event.inputs.platform == 'ios'
       working-directory: ./ios-uicatalog
-      run: xcodebuild -project UICatalog.xcodeproj -scheme UICatalog -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12'
+      run: xcodebuild -project UICatalog/UICatalog.xcodeproj -scheme UICatalog -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 14' build
 
     - name: Run iOS Test
       if: github.event.inputs.platform == 'ios'
