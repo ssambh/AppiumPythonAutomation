@@ -41,10 +41,12 @@ elif launch == "android":
     options.load_capabilities(
         {
             'platformName': 'Android',
+            'platformVersion': '10',
             'automationName': 'UiAutomator2',
             'app': './ApiDemos-debug.apk',
             'appPackage': 'io.appium.android.apis',
-            'appActivity': '.ApiDemos'
+            'appActivity': '.ApiDemos',
+            'avd': 'test'
         }
     )
 
