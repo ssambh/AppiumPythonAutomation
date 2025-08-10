@@ -43,7 +43,7 @@ elif launch == "android":
             'platformName': 'Android',
             'platformVersion': '14',
             'automationName': 'UiAutomator2',
-            'app': './ApiDemos-debug.apk',
+           # 'app': './ApiDemos-debug.apk',
             'appPackage': 'io.appium.android.apis',
             'appActivity': '.ApiDemos'
         }
