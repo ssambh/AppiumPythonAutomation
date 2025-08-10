@@ -74,12 +74,17 @@ jobs:
         emulator-boot-timeout: 120
         script: python appium2/appium_example.py
 
+    - name: Build and Install iOS App
+      if: github.event.inputs.platform == 'ios'
+      run: git clone https://github.com/appium/ios-uicatalog.git
+
+    - name: Build UICatalog
+      if: github.event.inputs.platform == 'ios'
+      working-directory: ./ios-uicatalog
+      run: xcodebuild -project UICatalog.xcodeproj -scheme UICatalog -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12'
+
     - name: Run iOS Test
       if: github.event.inputs.platform == 'ios'
       timeout-minutes: 20
-      run: |
-        git clone https://github.com/appium/ios-uicatalog.git
-        cd ios-uicatalog && xcodebuild -project UICatalog.xcodeproj -scheme UICatalog -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12'
-        cd ..
-        python appium2/appium_example.py
+      run: python appium2/appium_example.py
 
