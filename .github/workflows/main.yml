@@ -79,8 +79,7 @@ jobs:
       timeout-minutes: 20
       run: |
         git clone https://github.com/appium/ios-uicatalog.git
-        cd ios-uicatalog
-        xcodebuild -project UICatalog.xcodeproj -scheme UICatalog -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12'
+        cd ios-uicatalog && xcodebuild -project UICatalog.xcodeproj -scheme UICatalog -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12'
         cd ..
         python appium2/appium_example.py
 

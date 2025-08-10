@@ -31,7 +31,7 @@ elif launch == "ios":
     options.load_capabilities(
         {
             "platformName": "iOS",
-            "platformVersion": "18.2",
+            "platformVersion": "17.5",
             "automationName": "XCUITest",
             "bundleId": "com.example.apple-samplecode.UICatalog",
             "showXcodeLog": True
