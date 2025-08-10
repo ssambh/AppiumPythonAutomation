@@ -1,23 +1,19 @@
 name: Appium CI/CD Pipeline
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to run tests on'
+        required: true
+        type: choice
+        options:
+        - android
+        - ios
 
 jobs:
   build-and-test:
-    strategy:
-      matrix:
-        include:
-          - platform: android
-            os: macos-latest
-          - platform: ios
-            os: macos-latest
-
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ (github.event.inputs.platform == 'ios' && 'macos-latest') || 'macos-latest' }}
 
     steps:
     - name: Checkout repository
@@ -34,7 +30,7 @@ jobs:
         node-version: '20'
 
     - name: Set up Java
-      if: matrix.platform == 'android'
+      if: github.event.inputs.platform == 'android'
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
@@ -53,17 +49,17 @@ jobs:
 
     - name: Configure test script for platform
       run: |
-        sed -i.bak 's/launch = ".*"/launch = "${{ matrix.platform }}"/' appium2/appium_example.py
+        sed -i.bak "s/launch = \".*\"/launch = \"${{ github.event.inputs.platform }}\"/" appium2/appium_example.py
 
     - name: Start Appium Server
       run: appium &
 
     - name: Download Android App
-      if: matrix.platform == 'android'
+      if: github.event.inputs.platform == 'android'
       run: wget https://github.com/appium/android-apidemos/releases/download/v3.1.0/ApiDemos-debug.apk
 
     - name: Run Android Test
-      if: matrix.platform == 'android'
+      if: github.event.inputs.platform == 'android'
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 34
@@ -73,7 +69,7 @@ jobs:
         script: python appium2/appium_example.py
 
     - name: Run iOS Test
-      if: matrix.platform == 'ios'
+      if: github.event.inputs.platform == 'ios'
       timeout-minutes: 20
       run: |
         git clone https://github.com/appium/ios-uicatalog.git
